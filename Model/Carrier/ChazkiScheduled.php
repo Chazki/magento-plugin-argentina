@@ -223,44 +223,4 @@ class ChazkiScheduled extends AbstractCarrier implements CarrierInterface
         $method->setCost($cost);
         return $method;
     }
-
-    /**
-     * Retrieve information from carrier configuration
-     *
-     * @param   string $field
-     * @return  false|string
-     */
-    public function getConfigData($field)
-    {
-        if (empty($this->_code)) {
-            return false;
-        }
-        $path = 'carriers/chazki_arg/scheduled/' . $field;
-
-        return $this->_scopeConfig->getValue(
-            $path,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $this->getStore()
-        );
-    }
-
-    /**
-     * Retrieve config flag for store by field
-     *
-     * @param string $field
-     * @return bool
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
-     * @api
-     */
-    public function getConfigFlag($field)
-    {
-        $path = 'carriers/chazki_arg/' . $field;
-
-        return $this->_scopeConfig->isSetFlag(
-            $path,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $this->getStore()
-        );
-    }
 }
-
