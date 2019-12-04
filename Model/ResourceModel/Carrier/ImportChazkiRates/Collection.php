@@ -7,7 +7,7 @@
  * @author   Chazki
  */
 
-namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay;
+namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates;
 
 /**
  * Shipping table rates collection
@@ -30,21 +30,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      * @var string
      */
     protected $_regionTable;
-
-    /**
-     * Define resource model and item
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        $this->_init(
-            \Chazki\ChazkiArg\Model\Carrier\ChazkiSameDay::class,
-            \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay::class
-        );
-        $this->_countryTable = $this->getTable('directory_country');
-        $this->_regionTable = $this->getTable('directory_country_region');
-    }
 
     /**
      * Initialize select, add country iso3 code and region name
@@ -74,7 +59,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      * Add website filter to collection
      *
      * @param int $websiteId
-     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\Collection
+     * @return Collection
      */
     public function setWebsiteFilter($websiteId)
     {
@@ -85,7 +70,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      * Add country filter to collection
      *
      * @param string $countryId
-     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\Collection
+     * @return Collection
      */
     public function setCountryFilter($countryId)
     {

@@ -9,13 +9,14 @@
 
 namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier;
 
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\Import;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\RateQuery;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\RateQueryFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\Import;
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\RateQuery;
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\RateQueryFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -26,7 +27,7 @@ use Psr\Log\LoggerInterface;
  * @api
  * @since 100.0.2
  */
-class ChazkiSameDay extends AbstractDb
+class ChazkiRegular extends AbstractDb
 {
     /**
      * Import table rates website ID
@@ -97,10 +98,10 @@ class ChazkiSameDay extends AbstractDb
     protected $storeManager;
 
     /**
-     * @var \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay
+     * @var \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiRegular
      * @since 100.1.0
      */
-    protected $carrierChazkiSameDay;
+    protected $carrierChazkiRegular;
 
     /**
      * Filesystem instance
@@ -121,12 +122,12 @@ class ChazkiSameDay extends AbstractDb
     private $rateQueryFactory;
 
     /**
-     * ChazkiSameDay constructor.
+     * ChazkiRegular constructor.
      * @param Context $context
      * @param LoggerInterface $logger
      * @param ScopeConfigInterface $coreConfig
      * @param StoreManagerInterface $storeManager
-     * @param \Chazki\ChazkiArg\Model\Carrier\ChazkiSameDay $carrierChazkiSameDay
+     * @param \Chazki\ChazkiArg\Model\Carrier\ChazkiRegular $carrierChazkiRegular
      * @param Filesystem $filesystem
      * @param RateQueryFactory $rateQueryFactory
      * @param Import $import
@@ -137,7 +138,7 @@ class ChazkiSameDay extends AbstractDb
         LoggerInterface $logger,
         ScopeConfigInterface $coreConfig,
         StoreManagerInterface $storeManager,
-        \Chazki\ChazkiArg\Model\Carrier\ChazkiSameDay $carrierChazkiSameDay,
+        \Chazki\ChazkiArg\Model\Carrier\ChazkiRegular $carrierChazkiRegular,
         \Magento\Framework\Filesystem $filesystem,
         Import $import,
         RateQueryFactory $rateQueryFactory,
@@ -147,7 +148,7 @@ class ChazkiSameDay extends AbstractDb
         $this->coreConfig = $coreConfig;
         $this->logger = $logger;
         $this->storeManager = $storeManager;
-        $this->carrierChazkiSameDay = $carrierChazkiSameDay;
+        $this->carrierChazkiRegular = $carrierChazkiRegular;
         $this->filesystem = $filesystem;
         $this->import = $import;
         $this->rateQueryFactory = $rateQueryFactory;
@@ -160,7 +161,7 @@ class ChazkiSameDay extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('shipping_chazki_arg_same_day', 'pk');
+        $this->_init('shipping_chazki_arg_regular', 'pk');
     }
 
     /**
@@ -181,6 +182,12 @@ class ChazkiSameDay extends AbstractDb
         $bindings = $rateQuery->getBindings();
 
         $result = $connection->fetchRow($select, $bindings);
+
+        if (!$result) {
+            $bindings[':website_id'] = 0;
+            $result = $connection->fetchRow($select, $bindings);
+        }
+
         // Normalize destination zip code
         if ($result && $result['dest_zip'] == '*') {
             $result['dest_zip'] = '';
@@ -223,7 +230,7 @@ class ChazkiSameDay extends AbstractDb
      *
      * @param \Magento\Framework\DataObject $object
      * @throws \Magento\Framework\Exception\LocalizedException
-     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay
+     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiRegular
      * @todo: this method should be refactored as soon as updated design will be provided
      * @see https://wiki.corp.x.com/display/MCOMS/Magento+Filesystem+Decisions
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -234,15 +241,21 @@ class ChazkiSameDay extends AbstractDb
         /**
          * @var \Magento\Framework\App\Config\Value $object
          */
-        if (empty($_FILES['groups']['tmp_name']['chazki_arg_same_day']['fields']['import']['value'])) {
+        if (empty($_FILES['groups']['tmp_name']['chazki_arg_regular']['fields']['import']['value'])) {
             return $this;
         }
-        $filePath = $_FILES['groups']['tmp_name']['chazki_arg_same_day']['fields']['import']['value'];
+        $filePath = $_FILES['groups']['tmp_name']['chazki_arg_regular']['fields']['import']['value'];
 
         $websiteId = $this->storeManager->getWebsite($object->getScopeId())->getId();
 
         $file = $this->getCsvFile($filePath);
         try {
+            // delete old data by website
+            $condition = [
+                'website_id = ?' => $websiteId
+            ];
+            $this->deleteByCondition($condition);
+
             $columns = $this->import->getColumns();
             foreach ($this->import->getData($file, $websiteId) as $bunch) {
                 $this->importData($columns, $bunch);
@@ -281,10 +294,24 @@ class ChazkiSameDay extends AbstractDb
     }
 
     /**
+     * @param array $condition
+     * @return $this
+     * @throws LocalizedException
+     */
+    private function deleteByCondition(array $condition)
+    {
+        $connection = $this->getConnection();
+        $connection->beginTransaction();
+        $connection->delete($this->getMainTable(), $condition);
+        $connection->commit();
+        return $this;
+    }
+
+    /**
      * Save import data batch
      *
      * @param array $data
-     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay
+     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiRegular
      */
     protected function _saveImportData(array $data)
     {

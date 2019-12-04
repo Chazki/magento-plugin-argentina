@@ -7,7 +7,7 @@
  * @author   Chazki
  */
 
-namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay;
+namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates;
 
 /**
  * Location directory.
@@ -79,7 +79,7 @@ class LocationDirectory
     /**
      * Load directory countries
      *
-     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay
+     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiExpress
      */
     protected function loadCountries()
     {
@@ -128,7 +128,7 @@ class LocationDirectory
     /**
      * Load directory regions
      *
-     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay
+     * @return \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiExpress
      */
     protected function loadRegions()
     {

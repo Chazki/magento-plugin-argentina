@@ -8,16 +8,40 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <carriers>
-            <chazki_arg_same_day>
+        <shipping>
+            <chazki_arg>
                 <active>0</active>
-                <title>Custom Shipping Title</title>
-                <name>Custom Shipping Method Name</name>
+                <api_key_live backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <api_key_testing backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <url_live>https://apps.chazki.com.ar</url_live>
+                <url_testing>http://qa.chazki.com.ar</url_testing>
+            </chazki_arg>
+        </shipping>
+        <carriers>
+            <chazki_arg_express>
+                <title>Chazki - Express</title>
+                <name>Chazki - Express</name>
                 <shipping_cost>10</shipping_cost>
                 <sallowspecific>0</sallowspecific>
                 <sort_order>15</sort_order>
-                <model>Chazki\ChazkiArg\Model\Carrier\ChazkiSameDay</model>
-            </chazki_arg_same_day>
+                <model>Chazki\ChazkiArg\Model\Carrier\ChazkiExpress</model>
+            </chazki_arg_express>
+            <chazki_arg_regular>
+                <title>Chazki - Regular</title>
+                <name>Chazki - Regular</name>
+                <shipping_cost>10</shipping_cost>
+                <sallowspecific>0</sallowspecific>
+                <sort_order>15</sort_order>
+                <model>Chazki\ChazkiArg\Model\Carrier\ChazkiRegular</model>
+            </chazki_arg_regular>
+            <chazki_arg_scheduled>
+                <title>Chazki - Scheduled</title>
+                <name>Chazki - Scheduled</name>
+                <shipping_cost>10</shipping_cost>
+                <sallowspecific>0</sallowspecific>
+                <sort_order>15</sort_order>
+                <model>Chazki\ChazkiArg\Model\Carrier\ChazkiScheduled</model>
+            </chazki_arg_scheduled>
         </carriers>
     </default>
 </config>
