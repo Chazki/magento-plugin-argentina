@@ -8,7 +8,7 @@
  */
 namespace Chazki\ChazkiArg\Model\Carrier;
 
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDayFactory;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiRegularFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Quote\Model\Quote\Address\RateRequest;
@@ -24,12 +24,12 @@ use Psr\Log\LoggerInterface;
 /**
  * ChazkiArg shipping model
  */
-class ChazkiSameDay extends AbstractCarrier implements CarrierInterface
+class ChazkiRegular extends AbstractCarrier implements CarrierInterface
 {
     /**
      * @var string
      */
-    protected $_code = 'chazki_arg_same_day';
+    protected $_code = 'chazki_arg_regular';
 
     /**
      * @var bool
@@ -52,9 +52,9 @@ class ChazkiSameDay extends AbstractCarrier implements CarrierInterface
     protected $_resultMethodFactory;
 
     /**
-     * @var ChazkiSameDayFactory
+     * @var ChazkiRegularFactory
      */
-    protected $_tablerateFactory;
+    protected $_chazkiRatesFactory;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -62,7 +62,7 @@ class ChazkiSameDay extends AbstractCarrier implements CarrierInterface
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $resultMethodFactory
-     * @param ChazkiSameDayFactory $tablerateFactory
+     * @param ChazkiRegularFactory $chazkiRatesFactory
      * @param array $data
      * @throws LocalizedException
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
@@ -73,12 +73,12 @@ class ChazkiSameDay extends AbstractCarrier implements CarrierInterface
         \Psr\Log\LoggerInterface $logger,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $resultMethodFactory,
-        ChazkiSameDayFactory $tablerateFactory,
+        ChazkiRegularFactory $chazkiRatesFactory,
         array $data = []
     ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_resultMethodFactory = $resultMethodFactory;
-        $this->_tablerateFactory = $tablerateFactory;
+        $this->_chazkiRatesFactory = $chazkiRatesFactory;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
@@ -188,7 +188,7 @@ class ChazkiSameDay extends AbstractCarrier implements CarrierInterface
      */
     public function getRate(\Magento\Quote\Model\Quote\Address\RateRequest $request)
     {
-        return $this->_tablerateFactory->create()->getRate($request);
+        return $this->_chazkiRatesFactory->create()->getRate($request);
     }
 
     /**
@@ -198,7 +198,7 @@ class ChazkiSameDay extends AbstractCarrier implements CarrierInterface
      */
     public function getAllowedMethods()
     {
-        return ['chazki_arg_same_day' => $this->getConfigData('name')];
+        return ['chazki_arg_regular' => $this->getConfigData('name')];
     }
 
     /**
@@ -216,12 +216,51 @@ class ChazkiSameDay extends AbstractCarrier implements CarrierInterface
         $method->setCarrier($this->getCarrierCode());
         $method->setCarrierTitle($this->getConfigData('title'));
 
-        $method->setMethod('chazki_arg_same_day');
+        $method->setMethod('chazki_arg_regular');
         $method->setMethodTitle($this->getConfigData('name'));
 
         $method->setPrice($shippingPrice);
         $method->setCost($cost);
         return $method;
+    }
+
+    /**
+     * Retrieve information from carrier configuration
+     *
+     * @param   string $field
+     * @return  false|string
+     */
+    public function getConfigData($field)
+    {
+        if (empty($this->_code)) {
+            return false;
+        }
+        $path = 'carriers/chazki_arg/regular/' . $field;
+
+        return $this->_scopeConfig->getValue(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getStore()
+        );
+    }
+
+    /**
+     * Retrieve config flag for store by field
+     *
+     * @param string $field
+     * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
+     * @api
+     */
+    public function getConfigFlag($field)
+    {
+        $path = 'carriers/chazki_arg/' . $field;
+
+        return $this->_scopeConfig->isSetFlag(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getStore()
+        );
     }
 }
 

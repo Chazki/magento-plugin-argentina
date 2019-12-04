@@ -7,7 +7,7 @@
  * @author   Chazki
  */
 
-namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\CSV;
+namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\CSV;
 
 use Magento\Framework\Exception\LocalizedException;
 
@@ -15,6 +15,7 @@ use Magento\Framework\Exception\LocalizedException;
  * @api
  * @since 100.1.0
  */
-class RowException extends LocalizedException
+class ColumnNotFoundException extends LocalizedException
 {
+
 }

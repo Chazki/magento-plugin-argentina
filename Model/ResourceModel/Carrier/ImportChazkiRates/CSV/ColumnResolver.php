@@ -7,7 +7,7 @@
  * @author   Chazki
  */
 
-namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\CSV;
+namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\CSV;
 
 class ColumnResolver
 {

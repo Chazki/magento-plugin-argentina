@@ -7,7 +7,7 @@
  * @author   Chazki
  */
 
-namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay;
+namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates;
 
 /**
  * Query builder for table rate
