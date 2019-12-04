@@ -8,7 +8,7 @@
  */
 namespace Chazki\ChazkiArg\Model\Config\Backend;
 
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDayFactory;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiRegularFactory;
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Config\Value;
@@ -18,19 +18,19 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
 
-class ChazkiSameDay extends Value
+class ChazkiRegular extends Value
 {
     /**
-     * @var ChazkiSameDayFactory
+     * @var ChazkiRegularFactory
      */
-    protected $chazkiSameDayFactory;
+    protected $chazkiRegularFactory;
 
     /**
      * @param Context $context
      * @param Registry $registry
      * @param ScopeConfigInterface $config
      * @param TypeListInterface $cacheTypeList
-     * @param ChazkiSameDayFactory $chazkiSameDayFactory
+     * @param ChazkiRegularFactory $chazkiRegularFactory
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
      * @param array $data
@@ -40,12 +40,12 @@ class ChazkiSameDay extends Value
         Registry $registry,
         ScopeConfigInterface $config,
         TypeListInterface $cacheTypeList,
-        ChazkiSameDayFactory $chazkiSameDayFactory,
+        ChazkiRegularFactory $chazkiRegularFactory,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
         array $data = []
     ) {
-        $this->chazkiSameDayFactory = $chazkiSameDayFactory;
+        $this->chazkiRegularFactory = $chazkiRegularFactory;
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
     }
 
@@ -55,9 +55,9 @@ class ChazkiSameDay extends Value
      */
     public function afterSave()
     {
-        /** @var \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay $chazkiSameDay */
-        $chazkiSameDay = $this->chazkiSameDayFactory->create();
-        $chazkiSameDay->uploadAndImport($this);
+        /** @var \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiRegular $chazkiRegular */
+        $chazkiRegular = $this->chazkiRegularFactory->create();
+        $chazkiRegular->uploadAndImport($this);
 
         return parent::afterSave();
     }

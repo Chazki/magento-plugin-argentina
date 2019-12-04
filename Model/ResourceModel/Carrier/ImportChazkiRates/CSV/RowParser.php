@@ -7,10 +7,10 @@
  * @author   Chazki
  */
 
-namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\CSV;
+namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\CSV;
 
 use Magento\Framework\Phrase;
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\LocationDirectory;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\LocationDirectory;
 
 /**
  * Row parser.

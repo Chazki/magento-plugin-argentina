@@ -7,16 +7,16 @@
  * @author   Chazki
  */
 
-namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay;
+namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\File\ReadInterface;
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\CSV\ColumnResolver;
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\CSV\ColumnResolverFactory;
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\CSV\RowException;
-use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiSameDay\CSV\RowParser;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\CSV\ColumnResolver;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\CSV\ColumnResolverFactory;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\CSV\RowException;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\CSV\RowParser;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
