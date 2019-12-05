@@ -35,7 +35,7 @@ class Data extends AbstractHelper
      */
     public function getEnabled()
     {
-        return $this->scopeConfig->getValue('carriers/chazki_arg/active', ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue('shipping/chazki_arg/active', ScopeInterface::SCOPE_STORE);
     }
 
     /**
