@@ -13,8 +13,8 @@
                 <active>0</active>
                 <api_key_live backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <api_key_testing backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
-                <url_live>https://apps.chazki.com.ar</url_live>
-                <url_testing>http://qa.chazki.com.ar</url_testing>
+                <url_live>https://apps.chazki.com.ar/api/v2</url_live>
+                <url_testing>http://qa.chazki.com.ar/api/v2</url_testing>
             </chazki_arg>
         </shipping>
         <carriers>
