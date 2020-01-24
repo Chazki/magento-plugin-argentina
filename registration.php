@@ -2,7 +2,7 @@
 /**
  * Module register
  *
- * Copyright © 2019 Chazki. All rights reserved.
+ * Copyright © 2020 Chazki. All rights reserved.
  *
  * @category Class
  * @package  Chazki_ChazkiArg

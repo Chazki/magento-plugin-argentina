@@ -2,7 +2,7 @@
 <!--
 /**
  * @author Chazki
- * @copyright Chazki © 2019
+ * @copyright Chazki © 2020
  * @package Chazki_ChazkiArg
  */
 -->
@@ -13,8 +13,9 @@
                 <active>0</active>
                 <api_key_live backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <api_key_testing backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
-                <url_live>https://apps.chazki.com.ar/api/v2</url_live>
-                <url_testing>http://qa.chazki.com.ar/api/v2</url_testing>
+                <url_live>https://apps.chazki.com/api/v2</url_live>
+                <url_testing>https://qa.chazki.com/api/v2</url_testing>
+                <prefix>CHI</prefix>
             </chazki_arg>
         </shipping>
         <carriers>

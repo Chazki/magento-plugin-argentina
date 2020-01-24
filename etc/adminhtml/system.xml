@@ -2,7 +2,7 @@
 <!--
 /**
  * @author Chazki
- * @copyright Chazki © 2019
+ * @copyright Chazki © 2020
  * @package Chazki_ChazkiArg
  */
 -->
@@ -52,6 +52,9 @@
                     <depends>
                         <field id="shipping/chazki_arg/server_endpoint">0</field>
                     </depends>
+                </field>
+                <field id="prefix" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Tracking ID Prefix</label>
                 </field>
             </group>
         </section>
