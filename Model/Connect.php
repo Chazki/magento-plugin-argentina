@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2019 Chazki. All rights reserved.
+ * Copyright © 2020 Chazki. All rights reserved.
  *
  * @category Class
  * @package  Chazki_ChazkiArg
@@ -145,19 +145,7 @@ class Connect
     }
 
     /**
-     * Retrieve SKU mapping info
-     *
-     * @param $url
-     *
-     * @return mixed
-     */
-    public function getSkuMapping($url)
-    {
-        return $this->chazkiRequest('/skuMapping?product_url=' . $url, 'GET');
-    }
-
-    /**
-     * Send shipping info to BII
+     * Send shipping info to Chazki
      *
      * @param $shipmentInfo
      *
@@ -173,28 +161,17 @@ class Connect
     }
 
     /**
-     * @param $workingOrder
+     * Get shipping info from Chazki
+     *
+     * @param $trackingId
+     *
      * @return mixed
      */
-    public function sendOrderInfo($workingOrder)
+    public function getShipment($trackingId)
     {
         return $this->chazkiRequest(
-            '/workorder',
-            'POST',
-            json_encode($workingOrder)
-        );
-    }
-
-    /**
-     * @param $workingOrder
-     * @return mixed
-     */
-    public function sendOrderCancellation($workingOrder)
-    {
-        return $this->chazkiRequest(
-            '/workorder/cancel',
-            'POST',
-            json_encode($workingOrder)
+            '/shipment/tracker/' . $trackingId,
+            'GET'
         );
     }
 

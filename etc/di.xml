@@ -2,7 +2,7 @@
 <!--
 /**
  * @author Chazki
- * @copyright Chazki © 2019
+ * @copyright Chazki © 2020
  * @package Chazki_ChazkiArg
  */
 -->
@@ -36,4 +36,11 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Shipping\Block\Tracking\Popup">
+        <plugin name="chazki_chazkiarg_plugin_popup" type="Chazki\ChazkiArg\Plugin\Popup" />
+    </type>
 </config>
+
+
+

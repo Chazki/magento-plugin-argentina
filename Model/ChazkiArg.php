@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2019 Chazki. All rights reserved.
+ * Copyright © 2020 Chazki. All rights reserved.
  *
  * @category Class
  * @package  Chazki_ChazkiArg
@@ -18,6 +18,9 @@ use Magento\Sales\Model\Order\Shipment\TrackFactory;
 
 class ChazkiArg
 {
+    const TRACKING_CODE = 'chazki_arg';
+    const TRACKING_LABEL = 'Chazki - Argentina';
+    
     /**
      * @var ApiConnect
      */
@@ -121,6 +124,17 @@ class ChazkiArg
             ]
         ];
 
+        $shippingTracks = $shipping->getTracks();
+        if (isset($shippingTracks) && count($shippingTracks)) {
+            foreach ($shippingTracks as $key => $track) {
+                if ($track->getCarrierCode() === self::TRACKING_CODE) {
+                    $shipment['shipment']['tracking'] = $track->getTrackNumber();
+                    $keyTrackId = $key;
+                    break;
+                }
+            }
+        }
+
         $response = json_decode($this->connect->createShipment($shipment), true);
         if (isset($response['message']) && isset($response['data'])) {
             $msg = 'Error while sending Chazki shipment.';
@@ -132,15 +146,20 @@ class ChazkiArg
 
             return false;
         } else {
-            $trackData = [
-                'carrier_code' => $shippingMethod->getData('carrier_code'),
-                'title' => 'Chazki Track',
-                'number' => $response['shipment']['tracking'],
-            ];
+            if (isset($shipment['shipment']['tracking']) && isset($keyTrackId)) {
+                $shippingTracks[$keyTrackId]->setTrackNumber($response['shipment']['tracking']);
+            } else {
+                $trackData = [
+                    'carrier_code' => self::TRACKING_CODE,
+                    'title' => __(self::TRACKING_LABEL),
+                    'number' => $response['shipment']['tracking'],
+                ];
 
-            $track = $this->trackFactory->create()->addData($trackData);
+                $track = $this->trackFactory->create()->addData($trackData);
+                $shipping->addTrack($track);
+            }
 
-            $shipping->addTrack($track)->save();
+            $shipping->save();
 
             $msg = 'Chazki shipment was created successfully - Track ID: ' . $response['shipment']['tracking'];
 
@@ -155,12 +174,12 @@ class ChazkiArg
     }
 
     /**
-     * @param $workingOrder
+     * @param $trackingId
      * @return mixed
      */
-    public function sendOrderCancellation($workingOrder)
+    public function getShipment($trackingId)
     {
-        return $this->connect->sendOrderCancellation($workingOrder);
+        return $this->connect->getShipment($trackingId);
     }
 
     /**
