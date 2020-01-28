@@ -31,24 +31,18 @@
                         <field id="shipping/chazki_arg/server_endpoint">0</field>
                     </depends>
                 </field>
-                <field id="api_key_live" translate="label" type="obscure"  sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="api_key_live" translate="label comment" type="obscure"  sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>API Key Live</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                    <comment>
-                        Para todos los servicios que expone la API es necesario gestionar la API Key correspondiente desde el administrador de Chazki.
-                        Para ello hay que entrar con usuario y contraseña (lo provee Chazki) e ingresar a Integraciones => Generar API KEY V2.
-                    </comment>
+                    <comment>It is neccesary to generate the API Key from the Chazki Admin panel in order to use the API's services. To do that, you must login with an username and password provided by Chazki, and click on Integrations => Generate API KEY V2.</comment>
                     <depends>
                         <field id="shipping/chazki_arg/server_endpoint">1</field>
                     </depends>
                 </field>
-                <field id="api_key_testing" translate="label" type="obscure"  sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="api_key_testing" translate="label comment" type="obscure"  sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>API Key Testing</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                    <comment>
-                        Para todos los servicios que expone la API es necesario gestionar la API Key correspondiente desde el administrador de Chazki.
-                        Para ello hay que entrar con usuario y contraseña (lo provee Chazki) e ingresar a Integraciones => Generar API KEY V2.
-                    </comment>
+                    <comment>It is neccesary to generate the API Key from the Chazki Admin panel in order to use the API's services. To do that, you must login with an username and password provided by Chazki, and click on Integrations => Generate API KEY V2.</comment>
                     <depends>
                         <field id="shipping/chazki_arg/server_endpoint">0</field>
                     </depends>
@@ -78,16 +72,6 @@
                     <label>Import</label>
                     <backend_model>Chazki\ChazkiArg\Model\Config\Backend\ChazkiRegular</backend_model>
                 </field>
-                <field id="sallowspecific" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Ship to Applicable Countries</label>
-                    <frontend_class>shipping-applicable-country</frontend_class>
-                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
-                </field>
-                <field id="specificcountry" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Ship to Specific Countries</label>
-                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                    <can_be_empty>1</can_be_empty>
-                </field>
                 <field id="showmethod" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Method if Not Applicable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -116,16 +100,6 @@
                     <label>Import</label>
                     <backend_model>Chazki\ChazkiArg\Model\Config\Backend\ChazkiExpress</backend_model>
                 </field>
-                <field id="sallowspecific" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Ship to Applicable Countries</label>
-                    <frontend_class>shipping-applicable-country</frontend_class>
-                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
-                </field>
-                <field id="specificcountry" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Ship to Specific Countries</label>
-                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                    <can_be_empty>1</can_be_empty>
-                </field>
                 <field id="showmethod" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Method if Not Applicable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -153,16 +127,6 @@
                 <field id="import" translate="label" type="Chazki\ChazkiArg\Block\Adminhtml\Form\Field\Import" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Import</label>
                     <backend_model>Chazki\ChazkiArg\Model\Config\Backend\ChazkiScheduled</backend_model>
-                </field>
-                <field id="sallowspecific" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Ship to Applicable Countries</label>
-                    <frontend_class>shipping-applicable-country</frontend_class>
-                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
-                </field>
-                <field id="specificcountry" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Ship to Specific Countries</label>
-                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                    <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="showmethod" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Method if Not Applicable</label>
