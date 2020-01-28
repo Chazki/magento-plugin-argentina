@@ -12,22 +12,17 @@ namespace Chazki\ChazkiArg\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
-use Psr\Log\LoggerInterface;
 
 class Data extends AbstractHelper
 {
     /**
      * Data constructor.
      * @param Context $context
-     * @param LoggerInterface $logger
      */
     public function __construct(
-        Context $context,
-        LoggerInterface $logger
+        Context $context
     ) {
         parent::__construct($context);
-
-        $this->_logger = $logger;
     }
 
     /**
