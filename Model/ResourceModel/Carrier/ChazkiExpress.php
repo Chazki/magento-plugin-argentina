@@ -14,11 +14,14 @@ use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\RateQuery;
 use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\RateQueryFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\Directory\PathValidator;
+use Magento\Framework\Filesystem\Directory\Read;
+use Magento\Framework\Filesystem\DriverPool;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Chazki\ChazkiArg\Model\Carrier\ChazkiExpress as ChazkiExpressModel;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -98,18 +101,15 @@ class ChazkiExpress extends AbstractDb
     protected $storeManager;
 
     /**
-     * @var \Chazki\ChazkiArg\Model\ResourceModel\Carrier\ChazkiExpress
+     * @var ChazkiExpressModel
      * @since 100.1.0
      */
     protected $carrierChazkiExpress;
 
     /**
-     * Filesystem instance
-     *
-     * @var \Magento\Framework\Filesystem
-     * @since 100.1.0
+     * @var DriverPool 
      */
-    protected $filesystem;
+    protected $driverPool;
 
     /**
      * @var Import
@@ -127,10 +127,10 @@ class ChazkiExpress extends AbstractDb
      * @param LoggerInterface $logger
      * @param ScopeConfigInterface $coreConfig
      * @param StoreManagerInterface $storeManager
-     * @param \Chazki\ChazkiArg\Model\Carrier\ChazkiExpress $carrierChazkiExpress
-     * @param Filesystem $filesystem
-     * @param RateQueryFactory $rateQueryFactory
+     * @param ChazkiExpressModel $carrierChazkiExpress
+     * @param DriverPool $driverPool
      * @param Import $import
+     * @param RateQueryFactory $rateQueryFactory
      * @param null $connectionName
      */
     public function __construct(
@@ -138,8 +138,8 @@ class ChazkiExpress extends AbstractDb
         LoggerInterface $logger,
         ScopeConfigInterface $coreConfig,
         StoreManagerInterface $storeManager,
-        \Chazki\ChazkiArg\Model\Carrier\ChazkiExpress $carrierChazkiExpress,
-        \Magento\Framework\Filesystem $filesystem,
+        ChazkiExpressModel $carrierChazkiExpress,
+        DriverPool $driverPool,
         Import $import,
         RateQueryFactory $rateQueryFactory,
         $connectionName = null
@@ -149,7 +149,7 @@ class ChazkiExpress extends AbstractDb
         $this->logger = $logger;
         $this->storeManager = $storeManager;
         $this->carrierChazkiExpress = $carrierChazkiExpress;
-        $this->filesystem = $filesystem;
+        $this->driverPool = $driverPool;
         $this->import = $import;
         $this->rateQueryFactory = $rateQueryFactory;
     }
@@ -196,6 +196,26 @@ class ChazkiExpress extends AbstractDb
         return $result;
     }
 
+    /**
+     * @param $path
+     * @param string $driverCode
+     * @return Read
+     */
+    public function getDirectoryReadByPath($path, $driverCode = DriverPool::FILE)
+    {
+        $driver = $this->driverPool->getDriver($driverCode);
+        $factory = new \Magento\Framework\Filesystem\File\ReadFactory(
+            $this->driverPool
+        );
+
+        return new Read(
+            $factory,
+            $driver,
+            $path,
+            new PathValidator($driver)
+        );
+    }
+    
     /**
      * @param array $fields
      * @param array $values
@@ -279,8 +299,9 @@ class ChazkiExpress extends AbstractDb
     }
 
     /**
-     * @param string $filePath
+     * @param $filePath
      * @return \Magento\Framework\Filesystem\File\ReadInterface
+     * @throws \Magento\Framework\Exception\ValidatorException
      */
     private function getCsvFile($filePath)
     {
@@ -288,7 +309,7 @@ class ChazkiExpress extends AbstractDb
         $dirName = isset($pathInfo['dirname']) ? $pathInfo['dirname'] : '';
         $fileName = isset($pathInfo['basename']) ? $pathInfo['basename'] : '';
 
-        $directoryRead = $this->filesystem->getDirectoryReadByPath($dirName);
+        $directoryRead = $this->getDirectoryReadByPath($dirName);
 
         return $directoryRead->openFile($fileName);
     }
