@@ -29,7 +29,7 @@ class ChazkiScheduled extends AbstractCarrier implements CarrierInterface
     /**
      * @var string
      */
-    protected $_code = 'chazki_arg_scheduled';
+    protected $_code = 'chazkiargscheduled';
 
     /**
      * @var bool
@@ -198,7 +198,7 @@ class ChazkiScheduled extends AbstractCarrier implements CarrierInterface
      */
     public function getAllowedMethods()
     {
-        return ['chazki_arg_scheduled' => $this->getConfigData('name')];
+        return [$this->_code => $this->getConfigData('name')];
     }
 
     /**
@@ -216,7 +216,7 @@ class ChazkiScheduled extends AbstractCarrier implements CarrierInterface
         $method->setCarrier($this->getCarrierCode());
         $method->setCarrierTitle($this->getConfigData('title'));
 
-        $method->setMethod('chazki_arg_scheduled');
+        $method->setMethod($this->_code);
         $method->setMethodTitle($this->getConfigData('name'));
 
         $method->setPrice($shippingPrice);

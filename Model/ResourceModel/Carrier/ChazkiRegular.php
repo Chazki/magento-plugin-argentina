@@ -260,10 +260,10 @@ class ChazkiRegular extends AbstractDb
         /**
          * @var \Magento\Framework\App\Config\Value $object
          */
-        if (empty($_FILES['groups']['tmp_name']['chazki_arg_regular']['fields']['import']['value'])) {
+        if (empty($_FILES['groups']['tmp_name']['chazkiargregular']['fields']['import']['value'])) {
             return $this;
         }
-        $filePath = $_FILES['groups']['tmp_name']['chazki_arg_regular']['fields']['import']['value'];
+        $filePath = $_FILES['groups']['tmp_name']['chazkiargregular']['fields']['import']['value'];
 
         $websiteId = $this->storeManager->getWebsite($object->getScopeId())->getId();
 

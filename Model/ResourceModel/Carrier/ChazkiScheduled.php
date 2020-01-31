@@ -261,10 +261,10 @@ class ChazkiScheduled extends AbstractDb
         /**
          * @var \Magento\Framework\App\Config\Value $object
          */
-        if (empty($_FILES['groups']['tmp_name']['chazki_arg_scheduled']['fields']['import']['value'])) {
+        if (empty($_FILES['groups']['tmp_name']['chazkiargscheduled']['fields']['import']['value'])) {
             return $this;
         }
-        $filePath = $_FILES['groups']['tmp_name']['chazki_arg_scheduled']['fields']['import']['value'];
+        $filePath = $_FILES['groups']['tmp_name']['chazkiargscheduled']['fields']['import']['value'];
 
         $websiteId = $this->storeManager->getWebsite($object->getScopeId())->getId();
 
