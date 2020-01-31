@@ -19,27 +19,27 @@
             </chazki_arg>
         </shipping>
         <carriers>
-            <chazki_arg_express>
+            <chazkiargexpress>
                 <title>Chazki - Express</title>
                 <name>Chazki - Express</name>
                 <shipping_cost>10</shipping_cost>
                 <sort_order>15</sort_order>
                 <model>Chazki\ChazkiArg\Model\Carrier\ChazkiExpress</model>
-            </chazki_arg_express>
-            <chazki_arg_regular>
+            </chazkiargexpress>
+            <chazkiargregular>
                 <title>Chazki - Regular</title>
                 <name>Chazki - Regular</name>
                 <shipping_cost>10</shipping_cost>
                 <sort_order>15</sort_order>
                 <model>Chazki\ChazkiArg\Model\Carrier\ChazkiRegular</model>
-            </chazki_arg_regular>
-            <chazki_arg_scheduled>
+            </chazkiargregular>
+            <chazkiargscheduled>
                 <title>Chazki - Scheduled</title>
                 <name>Chazki - Scheduled</name>
                 <shipping_cost>10</shipping_cost>
                 <sort_order>15</sort_order>
                 <model>Chazki\ChazkiArg\Model\Carrier\ChazkiScheduled</model>
-            </chazki_arg_scheduled>
+            </chazkiargscheduled>
         </carriers>
     </default>
 </config>

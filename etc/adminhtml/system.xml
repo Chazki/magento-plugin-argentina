@@ -53,7 +53,7 @@
             </group>
         </section>
         <section id="carriers" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
-            <group id="chazki_arg_regular" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="900">
+            <group id="chazkiargregular" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="900">
                 <label>Chazki Arg - Regular Shipping</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Enabled</label>
@@ -81,7 +81,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="chazki_arg_express" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="920">
+            <group id="chazkiargexpress" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="920">
                 <label>Chazki Arg - Express Shipping</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Enabled</label>
@@ -109,7 +109,7 @@
                     <label>Sort Order</label>
                 </field>
             </group>
-            <group id="chazki_arg_scheduled" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="940">
+            <group id="chazkiargscheduled" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="940">
                 <label>Chazki Arg - Scheduled Shipping</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Enabled</label>
