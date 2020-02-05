@@ -171,7 +171,7 @@ class ChazkiArg
                     $shippingTracks->getItems()[$keyTrackId]->setTrackNumber($response['shipment']['tracking']);
                 }
             } else {
-                if (version_compare($this->productMetadata->getVersion(), '2.3.0', '<')) {
+                if (version_compare($this->productMetadata->getVersion(), '2.2.2', '<')) {
                     $shippingTracks = $shipping->getTracks();
 
                     if (is_array($shippingTracks) && !count($shippingTracks)) {
