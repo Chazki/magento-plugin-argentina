@@ -165,7 +165,11 @@ class ChazkiArg
             return false;
         } else {
             if (isset($shipment['shipment']['tracking']) && isset($keyTrackId)) {
-                $shippingTracks[$keyTrackId]->setTrackNumber($response['shipment']['tracking']);
+                if (is_array($shippingTracks)) {
+                    $shippingTracks[$keyTrackId]->setTrackNumber($response['shipment']['tracking']);
+                } else {
+                    $shippingTracks->getItems()[$keyTrackId]->setTrackNumber($response['shipment']['tracking']);
+                }
             } else {
                 if (version_compare($this->productMetadata->getVersion(), '2.3.0', '<')) {
                     $shippingTracks = $shipping->getTracks();
