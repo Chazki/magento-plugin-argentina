@@ -15,6 +15,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\Sales\Model\Order\Shipment\Item;
 use Magento\Sales\Model\Order\Shipment\TrackFactory;
+use Magento\Sales\Model\ResourceModel\Order\Shipment\Track\CollectionFactory as TrackCollectionFactory;
 
 class ChazkiArg
 {
@@ -42,27 +43,35 @@ class ChazkiArg
     protected $trackFactory;
 
     /**
+     * @var TrackCollectionFactory
+     */
+    protected $trackCollectionFactory;
+
+    /**
      * ChazkiArg constructor.
      * @param Connect $connect
      * @param HelperData $helperData
      * @param OrderRepositoryInterface $orderRepository
      * @param TrackFactory $trackFactory
+     * @param TrackCollectionFactory $trackCollectionFactory
      */
     public function __construct(
         ApiConnect $connect,
         HelperData $helperData,
         OrderRepositoryInterface $orderRepository,
-        TrackFactory $trackFactory
+        TrackFactory $trackFactory,
+        TrackCollectionFactory $trackCollectionFactory
     ) {
         $this->connect = $connect;
         $this->helperData = $helperData;
         $this->orderRepository = $orderRepository;
         $this->trackFactory = $trackFactory;
+        $this->trackCollectionFactory = $trackCollectionFactory;
     }
 
     /**
-     * @param Shipment $shipment
-     * @return bool
+     * @param \Magento\Sales\Model\Order\Shipment $shipping
+     * @return  bool
      */
     public function createShipment($shipping)
     {
@@ -82,11 +91,11 @@ class ChazkiArg
         $carrierMethod = $shippingMethod->getMethod();
         $shipmentType = '';
 
-        if (strpos($carrierMethod, 'regular') !== false) {
+        if (strpos($carrierMethod, 'reg') !== false) {
             $shipmentType = 'Regular';
-        } elseif (strpos($carrierMethod, 'express') !== false) {
+        } elseif (strpos($carrierMethod, 'exp') !== false) {
             $shipmentType = 'Express';
-        } elseif (strpos($carrierMethod, 'scheduled') !== false) {
+        } elseif (strpos($carrierMethod, 'sche') !== false) {
             $shipmentType = 'Programado';
         }
 
@@ -149,10 +158,20 @@ class ChazkiArg
             if (isset($shipment['shipment']['tracking']) && isset($keyTrackId)) {
                 $shippingTracks[$keyTrackId]->setTrackNumber($response['shipment']['tracking']);
             } else {
+                $shippingTracks = $shipping->getTracks();
+
+                if (is_array($shippingTracks) && !count($shippingTracks)) {
+                    $shipping->setTracks(
+                        $this->trackCollectionFactory->create()->setShipmentFilter(
+                            $shipping->getId()
+                        )
+                    );
+                }
+
                 $trackData = [
                     'carrier_code' => self::TRACKING_CODE,
                     'title' => __(self::TRACKING_LABEL),
-                    'number' => $response['shipment']['tracking'],
+                    'number' => $response['shipment']['tracking']
                 ];
 
                 $track = $this->trackFactory->create()->addData($trackData);
