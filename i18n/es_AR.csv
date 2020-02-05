@@ -16,4 +16,7 @@
 "Chazki Arg - Regular Shipping", "Chazki Arg - Envío Regular"
 "Chazki Arg - Express Shipping", "Chazki Arg - Envío Express"
 "Chazki Arg - Scheduled Shipping", "Chazki Arg - Envío Programado"
+"Completed", "Completado"
+"Returned", "Devuelto"
+"Cancelled", "Cancelado"
 "It is neccesary to generate the API Key from the Chazki Admin panel in order to use the API's services. To do that, you must login with an username and password provided by Chazki, and click on Integrations => Generate API KEY V2.", "Para todos los servicios que expone la API es necesario gestionar la API Key correspondiente desde el administrador de Chazki. Para ello hay que entrar con usuario y contraseña (lo provee Chazki) e ingresar a Integraciones => Generar API KEY V2."

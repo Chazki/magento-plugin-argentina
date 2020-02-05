@@ -60,6 +60,38 @@ class Popup
                                         'activity' => $data['description']
                                     ];
                                 }
+                                
+                                if (isset($trackingData['shipment']['completed'])) {
+                                    $deliveryLocation = '';
+                                    if (isset($trackingData['shipment']['contact']['address']['locality'])) {
+                                        $deliveryLocation = $trackingData['shipment']['contact']['address']['locality'];
+                                    } elseif (isset($trackingData['shipment']['contact']['address']['sublocality'])) {
+                                        $deliveryLocation = $trackingData['shipment']['contact']['address']['sublocality'];
+                                    } elseif (isset($trackingData['shipment']['contact']['address']['region2'])) {
+                                        $deliveryLocation = $trackingData['shipment']['contact']['address']['region2'];
+                                    }
+
+                                    $history[] = [
+                                        'deliverydate' => date('Y-m-d', strtotime($trackingData['shipment']['completed'])),
+                                        'deliverytime' => date('H:i:s', strtotime($trackingData['shipment']['completed'])),
+                                        'deliverylocation' => $deliveryLocation,
+                                        'activity' => __('Completed')
+                                    ];
+                                } elseif (isset($trackingData['shipment']['returned'])) {
+                                    $history[] = [
+                                        'deliverydate' => date('Y-m-d', strtotime($trackingData['shipment']['returned'])),
+                                        'deliverytime' => date('H:i:s', strtotime($trackingData['shipment']['returned'])),
+                                        'deliverylocation' => '',
+                                        'activity' => __('Returned')
+                                    ];
+                                } elseif (isset($trackingData['shipment']['cancelled'])) {
+                                    $history[] = [
+                                        'deliverydate' => date('Y-m-d', strtotime($trackingData['shipment']['cancelled'])),
+                                        'deliverytime' => date('H:i:s', strtotime($trackingData['shipment']['cancelled'])),
+                                        'deliverylocation' => '',
+                                        'activity' => __('Cancelled')
+                                    ];
+                                }
 
                                 $tracking[$keys]->setProgressdetail($history);
                             }
