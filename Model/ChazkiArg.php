@@ -16,6 +16,7 @@ use Magento\Sales\Model\Order\Shipment;
 use Magento\Sales\Model\Order\Shipment\Item;
 use Magento\Sales\Model\Order\Shipment\TrackFactory;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Track\CollectionFactory as TrackCollectionFactory;
+use Magento\Framework\App\ProductMetadataInterface;
 
 class ChazkiArg
 {
@@ -48,25 +49,33 @@ class ChazkiArg
     protected $trackCollectionFactory;
 
     /**
+     * @var ProductMetadataInterface
+     */
+    protected $productMetadata;
+
+    /**
      * ChazkiArg constructor.
      * @param Connect $connect
      * @param HelperData $helperData
      * @param OrderRepositoryInterface $orderRepository
      * @param TrackFactory $trackFactory
      * @param TrackCollectionFactory $trackCollectionFactory
+     * @param ProductMetadataInterface $productMetadata
      */
     public function __construct(
         ApiConnect $connect,
         HelperData $helperData,
         OrderRepositoryInterface $orderRepository,
         TrackFactory $trackFactory,
-        TrackCollectionFactory $trackCollectionFactory
+        TrackCollectionFactory $trackCollectionFactory,
+        ProductMetadataInterface $productMetadata
     ) {
         $this->connect = $connect;
         $this->helperData = $helperData;
         $this->orderRepository = $orderRepository;
         $this->trackFactory = $trackFactory;
         $this->trackCollectionFactory = $trackCollectionFactory;
+        $this->productMetadata = $productMetadata;
     }
 
     /**
@@ -158,14 +167,16 @@ class ChazkiArg
             if (isset($shipment['shipment']['tracking']) && isset($keyTrackId)) {
                 $shippingTracks[$keyTrackId]->setTrackNumber($response['shipment']['tracking']);
             } else {
-                $shippingTracks = $shipping->getTracks();
+                if (version_compare($this->productMetadata->getVersion(), '2.3.0', '<')) {
+                    $shippingTracks = $shipping->getTracks();
 
-                if (is_array($shippingTracks) && !count($shippingTracks)) {
-                    $shipping->setTracks(
-                        $this->trackCollectionFactory->create()->setShipmentFilter(
-                            $shipping->getId()
-                        )
-                    );
+                    if (is_array($shippingTracks) && !count($shippingTracks)) {
+                        $shipping->setTracks(
+                            $this->trackCollectionFactory->create()->setShipmentFilter(
+                                $shipping->getId()
+                            )
+                        );
+                    }
                 }
 
                 $trackData = [
