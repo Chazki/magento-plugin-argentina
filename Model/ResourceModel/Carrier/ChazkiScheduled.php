@@ -14,7 +14,7 @@ use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\RateQuery;
 use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\RateQueryFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Filesystem\Directory\PathValidator;
+use Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\Filesystem\Directory\PathValidator;
 use Magento\Framework\Filesystem\Directory\Read;
 use Magento\Framework\Filesystem\DriverPool;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
