@@ -137,7 +137,8 @@ class ChazkiArg
                     ],
                     'name' => $shippingAddress->getName(),
                     'phone' => $shippingAddress->getTelephone(),
-                    'email' => $shippingAddress->getEmail()
+                    'email' => $shippingAddress->getEmail(),
+                    'notes' => $shipping->getCustomerNote()
                 ]
             ]
         ];
