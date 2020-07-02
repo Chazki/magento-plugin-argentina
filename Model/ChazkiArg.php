@@ -11,18 +11,18 @@ namespace Chazki\ChazkiArg\Model;
 
 use Chazki\ChazkiArg\Helper\Data as HelperData;
 use Chazki\ChazkiArg\Model\Connect as ApiConnect;
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\App\Request\Http;
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Model\Order\Shipment;
 use Magento\Sales\Model\Order\Shipment\Item;
 use Magento\Sales\Model\Order\Shipment\TrackFactory;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Track\CollectionFactory as TrackCollectionFactory;
-use Magento\Framework\App\ProductMetadataInterface;
 
 class ChazkiArg
 {
     const TRACKING_CODE = 'chazki_arg';
     const TRACKING_LABEL = 'Chazki - Argentina';
-    
+
     /**
      * @var ApiConnect
      */
@@ -54,6 +54,11 @@ class ChazkiArg
     protected $productMetadata;
 
     /**
+     * @var Http
+     */
+    protected $request;
+
+    /**
      * ChazkiArg constructor.
      * @param Connect $connect
      * @param HelperData $helperData
@@ -61,6 +66,7 @@ class ChazkiArg
      * @param TrackFactory $trackFactory
      * @param TrackCollectionFactory $trackCollectionFactory
      * @param ProductMetadataInterface $productMetadata
+     * @param Http $request
      */
     public function __construct(
         ApiConnect $connect,
@@ -68,7 +74,8 @@ class ChazkiArg
         OrderRepositoryInterface $orderRepository,
         TrackFactory $trackFactory,
         TrackCollectionFactory $trackCollectionFactory,
-        ProductMetadataInterface $productMetadata
+        ProductMetadataInterface $productMetadata,
+        Http $request
     ) {
         $this->connect = $connect;
         $this->helperData = $helperData;
@@ -76,11 +83,12 @@ class ChazkiArg
         $this->trackFactory = $trackFactory;
         $this->trackCollectionFactory = $trackCollectionFactory;
         $this->productMetadata = $productMetadata;
+        $this->request = $request;
     }
 
     /**
-     * @param \Magento\Sales\Model\Order\Shipment $shipping
-     * @return  bool
+     * @param $shipping
+     * @return bool
      */
     public function createShipment($shipping)
     {
@@ -126,6 +134,12 @@ class ChazkiArg
         /** substr to remove the last '+' */
         $product['description'] = substr($product['description'], 0, -2);
 
+        $postShipment = $this->request->getPostValue('shipment');
+        $shipmentNotes = '';
+        if (isset($postShipment['destination_reference_notes'])) {
+            $shipmentNotes = $postShipment['destination_reference_notes'];
+        }
+
         $shipment = [
             'shipment' => [
                 'type'    => $shipmentType,
@@ -138,7 +152,7 @@ class ChazkiArg
                     'name' => $shippingAddress->getName(),
                     'phone' => $shippingAddress->getTelephone(),
                     'email' => $shippingAddress->getEmail(),
-                    'notes' => $shipping->getCustomerNote()
+                    'notes' => $shipmentNotes
                 ]
             ]
         ];
