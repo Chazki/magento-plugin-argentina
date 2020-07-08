@@ -15,6 +15,8 @@ use Magento\Store\Model\ScopeInterface;
 
 class Data extends AbstractHelper
 {
+    public const REFERENCE_ATTRIBUTE_CODE = 'reference_note';
+
     /**
      * Data constructor.
      * @param Context $context
@@ -46,5 +48,15 @@ class Data extends AbstractHelper
         if ($echo) {
             echo PHP_EOL . $msg;
         }
+    }
+
+    /**
+     * @param $getOrSet
+     * @param $attribute
+     * @return string
+     */
+    public function getFunctionName($getOrSet, $attribute)
+    {
+        return $getOrSet . str_replace('_', '', ucwords($attribute, '_'));
     }
 }

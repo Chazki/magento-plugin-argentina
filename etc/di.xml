@@ -37,8 +37,19 @@
         </arguments>
     </type>
 
-    <type name="Magento\Shipping\Block\Tracking\Popup">
-        <plugin name="chazki_chazkiarg_plugin_popup" type="Chazki\ChazkiArg\Plugin\Popup" />
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="chazki_chazkiarg_plugin_checkout_processor"
+                type="Chazki\ChazkiArg\Plugin\CheckoutProcessor" />
+    </type>
+
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="chazki_chazkiarg_plugin_address_save"
+                type="Chazki\ChazkiArg\Plugin\ShippingInformationManagementPlugin" />
+    </type>
+
+    <type name="Magento\Quote\Model\QuoteManagement">
+        <plugin name="chazki_chazkiarg_checkout_fields_repository_address"
+                type="Chazki\ChazkiArg\Plugin\QuoteManagement" />
     </type>
 </config>
 
