@@ -23,3 +23,5 @@
 "Reference Note", "Nota de Referencia"
 "Set the reference for the delivery of the order.", "Establecer la referencia para la entrega del pedido."
 "It is neccesary to generate the API Key from the Chazki Admin panel in order to use the API's services. To do that, you must login with an username and password provided by Chazki, and click on Integrations => Generate API KEY V2.", "Para todos los servicios que expone la API es necesario gestionar la API Key correspondiente desde el administrador de Chazki. Para ello hay que entrar con usuario y contraseña (lo provee Chazki) e ingresar a Integraciones => Generar API KEY V2."
+"Customer Reference Note", "Nota de Referencia del Cliente"
+"Seller Reference Note", "Nota de Referencia del Vendedor"

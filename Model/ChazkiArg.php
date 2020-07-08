@@ -134,10 +134,20 @@ class ChazkiArg
         /** substr to remove the last '+' */
         $product['description'] = substr($product['description'], 0, -2);
 
-        $postShipment = $this->request->getPostValue('shipment');
         $shipmentNotes = '';
-        if (isset($postShipment['destination_reference_notes'])) {
-            $shipmentNotes = $postShipment['destination_reference_notes'];
+
+        $referenceNote = $shippingAddress->{$this->helperData->getFunctionName('get', HelperData::REFERENCE_ATTRIBUTE_CODE)}();
+        if (isset($referenceNote) && !empty($referenceNote)) {
+            $shipmentNotes .= __('Customer Reference Note') . ': ' . $referenceNote;
+        }
+
+        $postShipment = $this->request->getPostValue('shipment');
+        if (
+            isset($postShipment) &&
+            isset($postShipment['destination_reference_notes']) &&
+            !empty($postShipment['destination_reference_notes'])
+        ) {
+            $shipmentNotes .= (empty($shipmentNotes) ? '' : ' | ') . __('Seller Reference Note') . ': ' . $postShipment['destination_reference_notes'];
         }
 
         $shipment = [

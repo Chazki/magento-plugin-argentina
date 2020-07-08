@@ -42,7 +42,7 @@ class AfterShipmentSaveObserver implements ObserverInterface
         $shippingMethod = $order->getShippingMethod(true);
         $carrierCode = $shippingMethod->getData('carrier_code');
 
-        if (strpos ($carrierCode, 'chazki') !== false) {
+        if (strpos($carrierCode, 'chazki') !== false) {
             $this->chazkiArg->createShipment($shipping);
         }
     }
