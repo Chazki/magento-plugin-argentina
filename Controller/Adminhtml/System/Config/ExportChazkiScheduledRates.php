@@ -10,6 +10,7 @@
 namespace Chazki\ChazkiArg\Controller\Adminhtml\System\Config;
 
 use Chazki\ChazkiArg\Block\Adminhtml\Carrier\ChazkiRates\GridChazkiExpress;
+use Chazki\ChazkiArg\Block\Adminhtml\Carrier\ChazkiRates\GridChazkiScheduled;
 use Magento\Config\Controller\Adminhtml\System\AbstractConfig;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Config\Controller\Adminhtml\System\ConfigSectionChecker;
@@ -56,7 +57,7 @@ class ExportChazkiScheduledRates extends AbstractConfig
         $fileName = 'chazki-scheduled-rates.csv';
         /** @var $gridBlock GridChazkiExpress */
         $gridBlock = $this->_view->getLayout()->createBlock(
-            GridChazkiExpress::class
+            GridChazkiScheduled::class
         );
 
         $websiteId = $this->getRequest()->getParam('website');
