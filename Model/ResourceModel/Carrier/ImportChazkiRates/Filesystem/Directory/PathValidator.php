@@ -12,10 +12,11 @@ declare(strict_types=1);
 namespace Chazki\ChazkiArg\Model\ResourceModel\Carrier\ImportChazkiRates\Filesystem\Directory;
 
 use Magento\Framework\Exception\ValidatorException;
+use Magento\Framework\Filesystem\Directory\PathValidatorInterface;
 use Magento\Framework\Filesystem\DriverInterface;
 use Magento\Framework\Phrase;
 
-class PathValidator
+class PathValidator implements PathValidatorInterface
 {
     /**
      * @var DriverInterface
